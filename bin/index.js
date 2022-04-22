@@ -9,7 +9,21 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+const addUrl2PNGOptions = (url, options) => {
+  const defaultOptions = {
+    viewport: "1440x2600",
+    fullpage: false,
+    delay: 12,
+  };
+  const completeOptions = { ...defaultOptions, ...options };
+  const query = Object.entries(completeOptions).reduce((opts, entry) => {
+    return opts.concat(entry.join("="))
+  }, []).join("|")
+  return `${url}/url2png/${query}`;
+};
+
 const site_url = "https://discovernewborn1.zenfoliosite-test.zenfolio.dev/home";
+
 const options =  {
   type: "url2png",
   sign_url: true,
@@ -18,6 +32,6 @@ const options =  {
   ]
 };
 
-const viewport_url = cloudinary.url(`${site_url}/url2png/viewport=1440x2400|fullpage=false|delay=12`, options);
+const viewport_url = cloudinary.url(addUrl2PNGOptions(site_url), options);
 
 console.log(viewport_url);
