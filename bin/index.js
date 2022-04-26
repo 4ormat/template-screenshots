@@ -18,6 +18,6 @@ const options =  {
   ]
 };
 
-const viewport_url = cloudinary.url(`${site_url}/url2png/viewport=1440x2400|fullpage=false|delay=12`, options);
+const viewport_url = cloudinary.url(`${site_url}/url2png/viewport=1440x2400|fullpage=false|delay=12|custom_css_url=https://4ormat.github.io/template-screenshots/bin/style.css`, options);
 
 console.log(viewport_url);
