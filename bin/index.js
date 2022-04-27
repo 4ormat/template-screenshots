@@ -2,6 +2,7 @@
 
 require('dotenv').config()
 const cloudinary = require("cloudinary").v2;
+const yargs = require('yargs');
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -9,8 +10,12 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const site_url = "https://discovernewborn1.zenfoliosite-test.zenfolio.dev/home";
-const stylesheet = "https://4ormat.github.io/template-screenshots/bin/style.css"
+const site_url = yargs.argv._[0];
+const stylesheet = "https://4ormat.github.io/template-screenshots/bin/style.css";
+
+const desktop = "1440x2400";
+const tablet = "766x100";
+const mobile = "390x800";
 
 const options =  {
   type: "url2png",
@@ -20,6 +25,13 @@ const options =  {
   ]
 };
 
-const viewport_url = cloudinary.url(`${site_url}/url2png/viewport=1440x2400|fullpage=false|delay=2|custom_css_url=${stylesheet}`, options);
+const desktop_url = cloudinary.url(`${site_url}/url2png/viewport=${desktop}|fullpage=true|delay=15|custom_css_url=${stylesheet}`, options);
+const tablet_url = cloudinary.url(`${site_url}/url2png/viewport=${tablet}|fullpage=true|delay=15|custom_css_url=${stylesheet}`, options);
+const mobile_url = cloudinary.url(`${site_url}/url2png/viewport=${mobile}|fullpage=true|delay=15|custom_css_url=${stylesheet}`, options);
 
-console.log(viewport_url);
+Promise.all([desktop_url, tablet_url, mobile_url]).then(res => {
+  console.log(res)
+}).catch((err) => {
+  console.log(err.message)
+});
+
