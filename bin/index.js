@@ -18,6 +18,20 @@ const desktop = "1440x2400";
 const tablet = "766x100";
 const mobile = "390x800";
 
+const addUrl2PNGOptions = (url, device, options) => {
+  const defaultOptions = {
+    viewport: device,
+    fullpage: true,
+    delay: 12,
+    custom_css_url: stylesheet,
+  };
+  const completeOptions = { ...defaultOptions, ...options };
+  const query = Object.entries(completeOptions).reduce((opts, entry) => {
+    return opts.concat(entry.join("="))
+  }, []).join("|")
+  return `${url}/url2png/${query}`;
+};
+
 const options =  {
   type: "url2png",
   sign_url: true,
@@ -26,14 +40,13 @@ const options =  {
   ]
 };
 
-const desktop_url = cloudinary.url(`${site_url}/url2png/viewport=${desktop}|fullpage=true|delay=15|custom_css_url=${stylesheet}`, options);
-const tablet_url = cloudinary.url(`${site_url}/url2png/viewport=${tablet}|fullpage=true|delay=15|custom_css_url=${stylesheet}`, options);
-const mobile_url = cloudinary.url(`${site_url}/url2png/viewport=${mobile}|fullpage=true|delay=15|custom_css_url=${stylesheet}`, options);
+const desktop_url = cloudinary.url(addUrl2PNGOptions(site_url, desktop), options);
+const tablet_url = cloudinary.url(addUrl2PNGOptions(site_url, tablet), options);
+const mobile_url = cloudinary.url(addUrl2PNGOptions(site_url, mobile), options);
 
 Promise.all([desktop_url, tablet_url, mobile_url]).then(res => {
   console.log(res);
 }).catch((err) => {
   console.log(err.message)
 });
-
 
