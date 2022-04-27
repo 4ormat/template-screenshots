@@ -11,7 +11,7 @@ cloudinary.config({
 });
 
 const site_url = yargs.argv._[0];
-const stylesheet = "https://4ormat.github.io/template-screenshots/bin/style.css";
+const stylesheet = "https://4ormat.github.io/template-screenshots/public/style.css";
 
 const desktop = "1440x2400";
 // Might have to consider 766px instead of 768px to fix tablet view
