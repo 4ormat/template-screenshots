@@ -14,6 +14,7 @@ const site_url = yargs.argv._[0];
 const stylesheet = "https://4ormat.github.io/template-screenshots/bin/style.css";
 
 const desktop = "1440x2400";
+// Might have to consider 766px instead of 768px to fix tablet view
 const tablet = "766x100";
 const mobile = "390x800";
 
@@ -30,8 +31,9 @@ const tablet_url = cloudinary.url(`${site_url}/url2png/viewport=${tablet}|fullpa
 const mobile_url = cloudinary.url(`${site_url}/url2png/viewport=${mobile}|fullpage=true|delay=15|custom_css_url=${stylesheet}`, options);
 
 Promise.all([desktop_url, tablet_url, mobile_url]).then(res => {
-  console.log(res)
+  console.log(res);
 }).catch((err) => {
   console.log(err.message)
 });
+
 
