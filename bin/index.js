@@ -44,9 +44,7 @@ const desktop_url = cloudinary.url(addUrl2PNGOptions(site_url, desktop), options
 const tablet_url = cloudinary.url(addUrl2PNGOptions(site_url, tablet), options);
 const mobile_url = cloudinary.url(addUrl2PNGOptions(site_url, mobile), options);
 
-Promise.all([desktop_url, tablet_url, mobile_url]).then(res => {
+[desktop_url, tablet_url, mobile_url].forEach(res => {
   console.log(res);
-}).catch((err) => {
-  console.log(err.message)
 });
 
