@@ -14,6 +14,8 @@ cloudinary.config({
 });
 
 const site_url = yargs.argv._[0];
+const current_date = Date.now();
+const template_name = yargs.argv._[1] || `${current_date}_template`
 const stylesheet = "https://4ormat.github.io/template-screenshots/public/style.css";
 
 const desktop = "1440x2400";
@@ -21,13 +23,16 @@ const desktop = "1440x2400";
 const tablet = "766x100";
 const mobile = "390x800";
 
-const addUrl2PNGOptions = (url, dimensions, options, device) => {
+const device_type = [
+  "desktop", "tablet", "mobile"
+]
+
+const addUrl2PNGOptions = (url, dimensions, options) => {
   const defaultOptions = {
     viewport: dimensions,
     fullpage: true,
     delay: 5,
     custom_css_url: stylesheet,
-    device_type: device
   };
   const completeOptions = { ...defaultOptions, ...options };
   const query = Object.entries(completeOptions).reduce((opts, entry) => {
@@ -44,18 +49,25 @@ const options =  {
   ]
 };
 
-const desktop_url = cloudinary.url(addUrl2PNGOptions(site_url, desktop), options, "desktop");
-const tablet_url = cloudinary.url(addUrl2PNGOptions(site_url, tablet), options, "tablet");
-const mobile_url = cloudinary.url(addUrl2PNGOptions(site_url, mobile), options, "mobile");
+const desktop_url = cloudinary.url(addUrl2PNGOptions(site_url, desktop), options);
+const tablet_url = cloudinary.url(addUrl2PNGOptions(site_url, tablet), options);
+const mobile_url = cloudinary.url(addUrl2PNGOptions(site_url, mobile), options);
 
-[desktop_url, tablet_url, mobile_url].forEach((url, index, array) => {
-  console.log(index, "index", array)
+fs.mkdir(path.resolve(__dirname,`../screenshots/${template_name}`), { recursive: true }, function(err) {
+  if (err) {
+    console.log(err)
+  } else {
+    console.log(`New ${template_name} directory successfully created.`)
+  }
+});
+
+[desktop_url, tablet_url, mobile_url].forEach((url, index) => {
   http.get(url, function(res) {
-    const fileStream = fs.createWriteStream(path.resolve(__dirname,`../screenshots/${index}-preview.png`));
+    const fileStream = fs.createWriteStream(path.resolve(__dirname,`../screenshots/${template_name}/${device_type[index]}-preview.png`));
     res.pipe(fileStream);
-    fileStream.on("finish", function() {
+    fileStream.on("finish", () => {
       fileStream.close();
-      console.log("done!")
+      console.log(`${device_type[index]} preview saved!`);
     });
   })
 });
