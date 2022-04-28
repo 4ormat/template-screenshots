@@ -7,6 +7,8 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 
+console.log(yargs.argv.template)
+
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -15,7 +17,7 @@ cloudinary.config({
 
 const site_url = yargs.argv._[0];
 const current_date = Date.now();
-const template_name = yargs.argv._[1] || `${current_date}_template`
+const template_name = yargs.argv._[1] || `${current_date}_template`;
 const stylesheet = "https://4ormat.github.io/template-screenshots/public/style.css";
 
 const desktop = "1440x2400";
