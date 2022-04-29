@@ -7,8 +7,6 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 
-console.log(yargs.argv.template)
-
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -29,11 +27,11 @@ const device_type = [
   "desktop", "tablet", "mobile"
 ]
 
-const addUrl2PNGOptions = (url, dimensions, options) => {
+const addUrl2PNGOptions = (url, options) => {
   const defaultOptions = {
-    viewport: dimensions,
+    viewport: "1440x2400",
     fullpage: true,
-    delay: 5,
+    delay: 15,
     custom_css_url: stylesheet,
   };
   const completeOptions = { ...defaultOptions, ...options };
@@ -51,9 +49,9 @@ const options =  {
   ]
 };
 
-const desktop_url = cloudinary.url(addUrl2PNGOptions(site_url, desktop), options);
-const tablet_url = cloudinary.url(addUrl2PNGOptions(site_url, tablet), options);
-const mobile_url = cloudinary.url(addUrl2PNGOptions(site_url, mobile), options);
+const desktop_url = cloudinary.url(addUrl2PNGOptions(site_url, { viewport: desktop }), options);
+const tablet_url = cloudinary.url(addUrl2PNGOptions(site_url, { viewport: tablet }), options);
+const mobile_url = cloudinary.url(addUrl2PNGOptions(site_url, { viewport: mobile }), options);
 
 fs.mkdir(path.resolve(__dirname,`../screenshots/${template_name}`), { recursive: true }, function(err) {
   if (err) {
