@@ -61,13 +61,13 @@ fs.mkdir(path.resolve(__dirname,`../screenshots/${template_name}`), { recursive:
   }
 });
 
-[desktop_url, tablet_url, mobile_url].forEach((url, index) => {
+[{ device: "desktop", url: desktop_url}, { device: "tablet", url: tablet_url }, { device: "mobile", url: mobile_url }].forEach(({ url, device }) => {
   http.get(url, function(res) {
-    const fileStream = fs.createWriteStream(path.resolve(__dirname,`../screenshots/${template_name}/${device_type[index]}-preview.png`));
+    const fileStream = fs.createWriteStream(path.resolve(__dirname,`../screenshots/${template_name}/${device}-preview.png`));
     res.pipe(fileStream);
     fileStream.on("finish", () => {
       fileStream.close();
-      console.log(`${device_type[index]} preview saved!`);
+      console.log(`${device} preview saved!`);
     });
   })
 });
