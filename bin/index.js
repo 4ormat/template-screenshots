@@ -3,6 +3,9 @@
 require('dotenv').config()
 const cloudinary = require("cloudinary").v2;
 const yargs = require('yargs');
+const fs = require('fs');
+const path = require('path');
+const http = require('http');
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -11,6 +14,8 @@ cloudinary.config({
 });
 
 const site_url = yargs.argv._[0];
+const current_date = Date.now();
+const template_name = yargs.argv._[1] || `${current_date}_template`;
 const stylesheet = "https://4ormat.github.io/template-screenshots/public/style.css";
 
 const desktop = "1440x2400";
@@ -18,11 +23,15 @@ const desktop = "1440x2400";
 const tablet = "766x100";
 const mobile = "390x800";
 
-const addUrl2PNGOptions = (url, device, options) => {
+const device_type = [
+  "desktop", "tablet", "mobile"
+]
+
+const addUrl2PNGOptions = (url, options) => {
   const defaultOptions = {
-    viewport: device,
+    viewport: "1440x2400",
     fullpage: true,
-    delay: 12,
+    delay: 15,
     custom_css_url: stylesheet,
   };
   const completeOptions = { ...defaultOptions, ...options };
@@ -40,11 +49,26 @@ const options =  {
   ]
 };
 
-const desktop_url = cloudinary.url(addUrl2PNGOptions(site_url, desktop), options);
-const tablet_url = cloudinary.url(addUrl2PNGOptions(site_url, tablet), options);
-const mobile_url = cloudinary.url(addUrl2PNGOptions(site_url, mobile), options);
+const desktop_url = cloudinary.url(addUrl2PNGOptions(site_url, { viewport: desktop }), options);
+const tablet_url = cloudinary.url(addUrl2PNGOptions(site_url, { viewport: tablet }), options);
+const mobile_url = cloudinary.url(addUrl2PNGOptions(site_url, { viewport: mobile }), options);
 
-[desktop_url, tablet_url, mobile_url].forEach(res => {
-  console.log(res);
+fs.mkdir(path.resolve(__dirname,`../screenshots/${template_name}`), { recursive: true }, function(err) {
+  if (err) {
+    console.log(err)
+  } else {
+    console.log(`New ${template_name} directory successfully created.`)
+  }
+});
+
+[{ device: "desktop", url: desktop_url}, { device: "tablet", url: tablet_url }, { device: "mobile", url: mobile_url }].forEach(({ url, device }) => {
+  http.get(url, function(res) {
+    const fileStream = fs.createWriteStream(path.resolve(__dirname,`../screenshots/${template_name}/${device}-preview.png`));
+    res.pipe(fileStream);
+    fileStream.on("finish", () => {
+      fileStream.close();
+      console.log(`${device} preview saved!`);
+    });
+  })
 });
 
