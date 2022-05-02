@@ -9,10 +9,17 @@
 	position: static !important;
 }
 
+.zenHeroCarousel-module_zenContent__1iR4G
+
 
 .zenHeroCarousel-module_zenContent__1iR4G .slider.animated {
 	/* transform: none !important;
 	transition: none !important; */
 	position: static !important;
 	height: 648px !important;
+}
+
+.zenHeroCarousel-module_zenContainer__3ymmy,
+.zenHeroCarousel-module_imageCoverSlide__PwMtc {
+	max-height: 100% !important;
 }
