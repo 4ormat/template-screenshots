@@ -30,7 +30,11 @@
 	height: 648px !important;
 }
 
+.scrollCarousel-module_zenContainerscroll__2eH5u .scrollCarousel-module_zenContainerscrollCarousel__1NPbW .scrollCarousel-module_children__3PZSS {
+	display: block !important;
+}
+
 .zenHeroCarousel-module_zenContainer__3ymmy .zenHeroCarousel-module_imageCoverScroll__2Ap_8 {
 	height: 648px !important;
-	background-size: cover;
+	background-size: cover !important;
 }
