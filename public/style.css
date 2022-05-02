@@ -3,6 +3,13 @@
 }
 
 .zenHeroCarousel-module_zenContent__1iR4G {
-	border: 10px solid red;
-	height: 400px;
+	border: 10px solid red !important;
+	height: 400px !important;
+	overflow: visible !important;
+}
+
+
+.zenHeroCarousel-module_zenContent__1iR4G .slider.animated {
+	transform: none !important;
+	transition: none !important;
 }
