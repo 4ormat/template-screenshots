@@ -19,14 +19,14 @@
 
 .zenHeroCarousel-module_zenContainer__3ymmy,
 .zenHeroCarousel-module_imageCoverSlide__PwMtc {
-	max-height: 100% !important;
+	max-height: 648px !important;
 }
 
 .carousel .slide img {
-	max-height: 100% !important;
-	position: absolute;
+	max-height: 648px !important;
+	/* position: absolute;
 	top: 0;
 	left: 0;
 	width: auto;
-	transform: translate(-50%);
+	transform: translate(-50%); */
 }
