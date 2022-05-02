@@ -24,9 +24,9 @@
 
 .carousel .slide img {
 	max-height: 648px !important;
-	/* position: absolute;
-	top: 0;
-	left: 0;
-	width: auto;
-	transform: translate(-50%); */
+}
+
+.crossFadeCarousel-module_zenContainerscrol__22UId .crossFadeCarousel-module_unOrderList__7vxDU li span {
+	height: 569px !important;
+	border: solid green 1px;
 }
