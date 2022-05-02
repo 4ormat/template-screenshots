@@ -31,7 +31,7 @@ const addUrl2PNGOptions = (url, options) => {
   const defaultOptions = {
     viewport: "1440x2400",
     fullpage: true,
-    delay: 15,
+    delay: 5,
     custom_css_url: stylesheet,
   };
   const completeOptions = { ...defaultOptions, ...options };
